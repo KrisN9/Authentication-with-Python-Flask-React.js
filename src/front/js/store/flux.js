@@ -21,6 +21,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			login: async (email, password) => {
+				const options = {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						"email": email,
+						"password": password
+					})
+				}
+					const resp = await fetch('https://3001-4geeksacade-reactflaskh-pcw9fms0j7d.ws-eu78.gitpod.io/api/token', options)
+					if (resp.status !== 200){
+						alert("There has been some error");
+						return false;
+					}
+					const data = await resp.json();
+					console.log("This came from the backend", data);
+					sessionStorage.setItem("token", data.access_token);
+				}
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
