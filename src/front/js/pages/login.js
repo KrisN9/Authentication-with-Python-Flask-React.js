@@ -7,33 +7,12 @@ export const Login = () => {
 	const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const token = sessionStorage.getItem("token");
 	
+	const token = sessionStorage.getItem("token");
+	console.log("This is your token", token);
 	const handleClick = () => {
-
-		const options = {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				"email": email,
-				"password": password
-			})
-		}
-		fetch('https://3001-4geeksacade-reactflaskh-pcw9fms0j7d.ws-eu78.gitpod.io/api/token', options)
-		.then(resp => {
-			if (resp.status === 200) return resp.json();
-			else alert("There has been some error");
-		})
-		.then(data => {
-			sessionStorage.setItem("token", data.access_token);
-		})
-		.catch(error => {
-			console.error("There was an error!!")
-		})
-
-	}
+		actions.login(email, password).then()
+	};	
 
 	return (
 		<div className="text-center mt-5">
@@ -45,4 +24,4 @@ export const Login = () => {
 			</div>
 		</div>
 	);
-};
+}

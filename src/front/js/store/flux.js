@@ -31,7 +31,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"email": email,
 						"password": password
 					})
-				}
+				};
+
+				try{
 					const resp = await fetch('https://3001-4geeksacade-reactflaskh-pcw9fms0j7d.ws-eu78.gitpod.io/api/token', options)
 					if (resp.status !== 200){
 						alert("There has been some error");
@@ -40,6 +42,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json();
 					console.log("This came from the backend", data);
 					sessionStorage.setItem("token", data.access_token);
+					return true;
+				}
+				catch(error){
+					console.error("There has been an error");
 				}
 
 			getMessage: async () => {
