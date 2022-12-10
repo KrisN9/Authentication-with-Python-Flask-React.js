@@ -29,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logout: () => {
 				sessionStorage.getItem("token");
+				console.log("Loging out");
 				setStore({token: null});
 			},
 
@@ -70,7 +71,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				try{
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", options)
+					const resp = await fetch("https://3001-krisn9-authenticationwi-u4pmmsuee44.ws-eu78.gitpod.io//api/hello", options)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
