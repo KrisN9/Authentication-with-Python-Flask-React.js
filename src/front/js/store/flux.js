@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -21,6 +22,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			syncTokenFromSessionStore: () => {
+				const token = sessionStorage.getItem("token");
+				if(token && token != "" && token != undefined) setStore({token: token})
+			},
+
+			logout: () => {
+				sessionStorage.getItem("token");
+				setStore({token: null});
+			},
+
 			login: async (email, password) => {
 				const options = {
 					method: 'POST',
@@ -33,25 +44,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				};
 
-				try{
+				try {
 					const resp = await fetch('https://3001-4geeksacade-reactflaskh-pcw9fms0j7d.ws-eu78.gitpod.io/api/token', options)
-					if (resp.status !== 200){
+					if (resp.status !== 200) {
 						alert("There has been some error");
 						return false;
 					}
 					const data = await resp.json();
 					console.log("This came from the backend", data);
 					sessionStorage.setItem("token", data.access_token);
+					setStore({token: data.access_token});
 					return true;
 				}
-				catch(error){
+				catch(error) {
 					console.error("There has been an error");
 				}
+			},
 
 			getMessage: async () => {
+				const options = {
+					headers: {
+						"Authorization": "Bearer" + store.token
+					}
+				}
 				try{
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", options)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
@@ -75,7 +93,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			}
 		}
-	};
-};
+	},
+}
 
 export default getState;
