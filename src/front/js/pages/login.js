@@ -14,7 +14,7 @@ export const Login = () => {
 	console.log("This is your token", token);
 	const handleClick = () => {
 		actions.login(email, password).then(() => {
-			navigate.push('/');
+			navigate('/');
 		})
 	};	
 

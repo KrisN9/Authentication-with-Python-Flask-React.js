@@ -23,7 +23,7 @@ def create_token():
 @api.route("/hello", methods=["GET"])
 @jwt_required()
 def get_hello():
-    json = {
+    dictionary = {
         "msg": "Hello World"
     }
-    return jsonify(json)
+    return jsonify(dictionary)

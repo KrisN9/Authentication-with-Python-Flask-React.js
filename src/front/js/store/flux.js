@@ -36,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const options = {
 					method: 'POST',
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
 						"email": email,
@@ -62,9 +62,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getMessage: async () => {
+				const store = getStore();
 				const options = {
 					headers: {
-						"Authorization": "Bearer" + store.token
+						"Authorization": "Bearer" + store.token,
 					}
 				}
 				try{
@@ -93,7 +94,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			}
 		}
-	},
-}
+	}}
 
 export default getState;
